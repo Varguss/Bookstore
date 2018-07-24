@@ -11,17 +11,17 @@
 
         <properties>
             <!-- ### Connection Settings ### -->
-            <property name="connection.driver" value="com.mysql.jdbc.Driver" />
-            <property name="connection.url" value="jdbc:mysql://localhost:3306/bookstore" />
-            <property name="connection.username" value="root" />
-            <property name="connection.password" value="1" />
-            <property name="dialect" value="org.hibernate.dialect.MySQL55Dialect" />
+            <property name="hibernate.connection.driver" value="com.mysql.jdbc.Driver" />
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/bookstore" />
+            <property name="hibernate.connection.username" value="root" />
+            <property name="hibernate.connection.password" value="1" />
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL55Dialect" />
 
             <!-- ### Logging Settings ### -->
-            <property name="generate_statistics" value="true" />
-            <property name="show_sql" value="true" />
-            <property name="format_sql" value="true" />
-            <property name="use_sql_comments" value="true" />
+            <property name="hibernate.generate_statistics" value="true" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.use_sql_comments" value="true" />
 
             <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
