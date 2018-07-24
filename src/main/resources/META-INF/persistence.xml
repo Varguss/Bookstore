@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+
+    <persistence-unit name="standard">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+        <class>entity.BookEntity</class>
+        <class>entity.BookstoreEntity</class>
+
+        <properties>
+            <!-- ### Connection Settings ### -->
+            <property name="connection.driver" value="com.mysql.jdbc.Driver" />
+            <property name="connection.url" value="jdbc:mysql://localhost:3306/bookstore" />
+            <property name="connection.username" value="root" />
+            <property name="connection.password" value="1" />
+            <property name="dialect" value="org.hibernate.dialect.MySQL55Dialect" />
+
+            <!-- ### Logging Settings ### -->
+            <property name="generate_statistics" value="true" />
+            <property name="show_sql" value="true" />
+            <property name="format_sql" value="true" />
+            <property name="use_sql_comments" value="true" />
+
+            <property name="hibernate.hbm2ddl.auto" value="create" />
+        </properties>
+    </persistence-unit>
+</persistence>

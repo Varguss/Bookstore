@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration>
+    <appender name="hb" class="org.apache.log4j.ConsoleAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <param name="Target" value="System.out"/>
+        <param name="Threshold" value="TRACE"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="HIBERNATE LOG: --> %d{HH:mm:ss} %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <param name="Target" value="System.out"/>
+        <param name="Threshold" value="INFO"/>
+
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="LOG: %d{HH:mm:ss} %-5p %c - %m%n"/>
+        </layout>
+    </appender>
+
+    <logger name="org.hibernate">
+        <level value="INFO"/>
+        <appender-ref ref="hb"/>
+    </logger>
+
+    <logger name="org.hibernate.stat">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.hibernate.type">
+        <level value="TRACE"/>
+    </logger>
+
+    <logger name="org.hibernate.hql.ast.AST">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.tool.hbm2ddl">
+        <level value="WARN"/>
+    </logger>
+
+    <logger name="org.hibernate.cache">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.hibernate.jdbc">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.hibernate.hql">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.hibernate.SQL">
+        <level value="DEBUG"/>
+    </logger>
+
+    <root>
+        <priority value="INFO"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</log4j:configuration>
