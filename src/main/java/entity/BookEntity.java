@@ -36,7 +36,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "printed_year", updatable = false)
+    @Column(name = "printed_year", nullable = false, updatable = false)
     public int getPrintYear() {
         return printYear;
     }
@@ -96,7 +96,7 @@ public class BookEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "STORE_ID")
+    @JoinColumn(name = "store_id")
     public BookstoreEntity getBookstoreEntity() {
         return bookstoreEntity;
     }
@@ -122,13 +122,12 @@ public class BookEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, printYear, title, description, author, isbn, isRedAlready, bookstoreEntity);
     }
 
     @Override
     public String toString() {
-        return "BookEntity{" +
+        return "Book{" +
                 "id=" + id +
                 ", printYear=" + printYear +
                 ", title='" + title + '\'' +

@@ -73,13 +73,12 @@ public class BookstoreEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, name, owner, books);
     }
 
     @Override
     public String toString() {
-        return "BookstoreEntity{" +
+        return "Bookstore{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", owner='" + owner + '\'' +

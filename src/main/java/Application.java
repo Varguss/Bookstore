@@ -1,35 +1,45 @@
-import entity.BookEntity;
 import entity.BookstoreEntity;
 
-import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Application {
+    private static Map<String, BookstoreEntity> stores = new HashMap<>();
+    private static BookstoreEntity currentStore;
+
     public static void main(String[] args) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("standard");
-        EntityManager manager = factory.createEntityManager();
 
-        BookstoreEntity bookstoreEntity = new BookstoreEntity();
-        BookEntity book1 = new BookEntity(2000, "Hello!", "It's really nice book!", "Michael Bernard", "isbn_example", false, bookstoreEntity);
-        BookEntity book2 = new BookEntity(1996, "Clean Code!", "It's really nice book!", "Michael Bernard", "isbn_example", false, bookstoreEntity);
-        BookEntity book3 = new BookEntity(2003, "Java For Professionals", "It's really nice book!", "Michael Bernard", "isbn_example", false, bookstoreEntity);
+    }
 
-        bookstoreEntity.setName("Store #1");
-        bookstoreEntity.setOwner("Anton");
+    private static void use(String storeName) {
+       // TODO: Смена текущего магазина.
+    }
 
-        EntityTransaction transaction = manager.getTransaction();
+    private static void drop(String storeName) {
+        // TODO: Удаление текущего магазина.
+    }
 
-        transaction.begin();
+    private static void createStore(String storeName, String owner) {
+        // TODO: Создание нового магазина.
+    }
 
-        manager.persist(book1);
-        manager.persist(book2);
-        manager.persist(book3);
-        manager.persist(bookstoreEntity);
+    private static void addBook(String title, String description, String author, String isbn, int printedYear) {
+        // TODO: Добавление книги в текущий магазин.
+    }
 
-        transaction.commit();
+    private static void removeBook() {
+        // TODO: Удаление книги из текущего магазина.
+    }
 
-        TypedQuery<BookEntity> query = manager.createQuery("select book from BookEntity book WHERE title = 'Hello!'", BookEntity.class);
-        query.getResultList().forEach(System.out::println);
-        factory.close();
-        manager.close();
+    private static void showAll() {
+        // TODO: Показать магазины и все их записи.
+    }
+
+    private static void show() {
+        // TODO: Показать информацию о текущем магазине.
+    }
+
+    static {
+
     }
 }
