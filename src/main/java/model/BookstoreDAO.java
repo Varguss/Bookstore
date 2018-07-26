@@ -2,26 +2,12 @@ package model;
 
 import entity.BookstoreEntity;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.List;
 
-public class BookstoreDAO {
-    private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("standard");
-
-    public void save(BookstoreEntity bookstore) {
-
-    }
-
-    public void update(BookstoreEntity bookstore) {
-
-    }
-
-    public void delete(int bookstore_id) {
-
-    }
-
-    public List<BookstoreEntity> get() {
-        return null;
-    }
+public interface BookstoreDAO {
+    void createBookstore(BookstoreEntity bookstore) throws DAOException;
+    void deleteBookstore(BookstoreEntity bookstore) throws DAOException;
+    void updateBookstore(BookstoreEntity bookstore) throws DAOException;
+    BookstoreEntity getBookstoreById(int id) throws DAOException;
+    List<BookstoreEntity> getAllBookstores() throws DAOException;
 }

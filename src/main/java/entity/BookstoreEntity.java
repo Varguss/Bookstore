@@ -51,13 +51,17 @@ public class BookstoreEntity {
         this.owner = owner;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = BookEntity.class, mappedBy = "bookstoreEntity")
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = BookEntity.class, mappedBy = "bookstoreEntity", fetch = FetchType.LAZY)
     public List<BookEntity> getBooks() {
         return books;
     }
 
     public void setBooks(List<BookEntity> books) {
         this.books = books;
+    }
+
+    public void addBook(BookEntity bookEntity) {
+        books.add(bookEntity);
     }
 
     @Override
