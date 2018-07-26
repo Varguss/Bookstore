@@ -85,7 +85,7 @@ public class BookstoreDatabaseDAO implements BookstoreDAO {
             entityManager.getTransaction().begin();
             logger.debug("Transaction has been opened.");
 
-            entityManager.merge(bookstore);
+            entityManager.persist(bookstore);
 
             entityManager.getTransaction().commit();
             logger.debug("Transaction has been commited.");
@@ -106,9 +106,17 @@ public class BookstoreDatabaseDAO implements BookstoreDAO {
 
             TypedQuery<BookstoreEntity> query = entityManager.createQuery("SELECT bookstore FROM BookstoreEntity bookstore", BookstoreEntity.class);
 
+            entityManager.getTransaction().begin();
+            logger.debug("Transaction has been opened.");
+
             List<BookstoreEntity> result = query.getResultList();
+
+            entityManager.getTransaction().commit();
+            logger.debug("Transaction has been commited.");
+
             logger.info("Bookstores have been retrieved.");
 
+            entityManager.close();
             return result;
         } catch (Exception e) {
             logger.error("Retrieving bookstores has been failed.", e);
