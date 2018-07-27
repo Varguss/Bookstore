@@ -11,15 +11,38 @@ import org.apache.log4j.Logger;
 import javax.persistence.EntityExistsException;
 import java.util.List;
 
+/**
+ * Bookstore service class. Provides interface to interact with bookstores. Uses encapsulated BookstoreDAO object to get access to bookstores.
+ */
 public class BookstoreService {
+    /**
+     * Logger
+     */
     private static final Logger logger = Logger.getLogger(BookstoreService.class);
+
+    /**
+     * DAO provides access to bookstores.
+     */
     private BookstoreDAO dao;
+
+    /**
+     * Last chosen boookstore.
+     */
     private BookstoreEntity currentBookstore;
 
+    /**
+     * Creates BookstoreService instance depends on dao type.
+     * @param daoType DAO type.
+     * @see model.DAOFactory.DAOType
+     */
     public BookstoreService(DAOFactory.DAOType daoType) {
         dao = DAOFactory.getBookstoreDAO(daoType);
     }
 
+    /**
+     * Select a new current bookstore instance.
+     * @param storeId Bookstore id.
+     */
     public void use(int storeId) {
         try {
             System.out.println("### Searching... ###");
@@ -32,6 +55,9 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Drops current bookstore instance. Deletes the last from database.
+     */
     public void drop() {
         System.out.println("### Dropping... ###");
         if (currentBookstore != null) {
@@ -43,6 +69,11 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Creates a new bookstore.
+     * @param storeName Bookstore name.
+     * @param owner Bookstore owner.
+     */
     public void createStore(String storeName, String owner) {
         System.out.println("### Creating... ###");
         BookstoreEntity bookstoreEntity = new BookstoreEntity();
@@ -61,6 +92,11 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Updates current bookstore state.
+     * @param storeName New bookstore name.
+     * @param owner New bookstore owner.
+     */
     public void updateStore(String storeName, String owner) {
         System.out.println("### Updating... ###");
         if (currentBookstore != null) {
@@ -74,6 +110,14 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Adds a new book into current bookstore.
+     * @param title Book's title.
+     * @param description Book's description.
+     * @param author Book's author.
+     * @param isbn Book's isbn.
+     * @param printedYear Book's printedYear.
+     */
     public void addBook(String title, String description, String author, String isbn, int printedYear) {
         System.out.println("### Adding a new book... ###");
         if (currentBookstore != null) {
@@ -92,6 +136,10 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Removes a book from current bookstore if exists.
+     * @param bookId Book id to remove. Only in the current bookstore scope.
+     */
     public void removeBookIfExists(int bookId) {
         System.out.println("### Removing a book... ###");
         if (currentBookstore != null) {
@@ -104,6 +152,9 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Shows information about all bookstores and their books.
+     */
     public void showAll() {
         System.out.println("### Showing bookstores... ###");
         List<BookstoreEntity> bookstores = dao.getAllBookstores();
@@ -114,6 +165,9 @@ public class BookstoreService {
             bookstores.forEach(System.out::println);
     }
 
+    /**
+     * Shows information about current bookstore.
+     */
     public void show() {
         System.out.println("### Showing the current bookstore... ###");
         if (currentBookstore != null) {
@@ -123,6 +177,10 @@ public class BookstoreService {
         }
     }
 
+    /**
+     * Closes DAO instance.
+     * @throws ServiceException DAO closing is failed.
+     */
     public void exit() throws ServiceException {
         try {
             if (currentBookstore != null)

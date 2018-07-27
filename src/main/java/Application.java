@@ -8,10 +8,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+/**
+ * Application main class.
+ */
 public class Application {
+    /**
+     * Logger
+     */
     private static final Logger logger = Logger.getLogger(Application.class);
+
+    /**
+     * Service instance. Provides interface to interact with bookstores.
+     */
     private static BookstoreService service = new BookstoreService(DAOFactory.DAOType.DATABASE);
 
+    /**
+     * Main application method. Accepts input - commands. Delegates actions to service.
+     * @param args Ignored.
+     * @throws IOException Input exception.
+     */
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -123,6 +138,9 @@ public class Application {
         logger.info("Application successfully closed.");
     }
 
+    /**
+     * Prints the list of all commands (instruction).
+     */
     private static void help() {
         System.out.println("#####################################################################");
         System.out.println("                    ### COMMANDS LIST ###                   ");
@@ -139,11 +157,20 @@ public class Application {
         System.out.println("#####################################################################\n\n");
     }
 
+    /**
+     * Called before application is closed.
+     * @throws ServiceException Can't close EntityManagerFactory.
+     */
     private static void onClosing() throws ServiceException {
         System.out.println("\n\nThank you for using this application! Goodbye!");
         service.exit();
     }
 
+    /**
+     * Feature method. Parses input line into string array. "text text" syntax supporting.
+     * @param operation Input line - command user inputs.
+     * @return Parsed string array with command and arguments.
+     */
     private static String[] parse(String operation) {
         List<String> parts = new ArrayList<>(Arrays.asList(operation.split(" ")));
 
