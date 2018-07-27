@@ -1,6 +1,7 @@
 import model.DAOFactory;
 import org.apache.log4j.Logger;
 import service.BookstoreService;
+import service.ServiceException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -113,7 +114,12 @@ public class Application {
             operation = parse(reader.readLine());
         }
 
-        onClosing();
+        try {
+            onClosing();
+        } catch (ServiceException e) {
+            logger.error("Ooops, something is happened until application has been closed!", e);
+        }
+
         logger.info("Application successfully closed.");
     }
 
@@ -133,8 +139,9 @@ public class Application {
         System.out.println("#####################################################################\n\n");
     }
 
-    private static void onClosing() {
+    private static void onClosing() throws ServiceException {
         System.out.println("\n\nThank you for using this application! Goodbye!");
+        service.exit();
     }
 
     private static String[] parse(String operation) {
