@@ -66,6 +66,10 @@ public class BookstoreEntity implements Serializable {
         books.add(bookEntity);
     }
 
+    public void removeBook(int bookId) {
+        books.removeIf((book) -> book.getId() == bookId);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,11 +88,12 @@ public class BookstoreEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Bookstore{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", owner='" + owner + '\'' +
-                ", books=" + books +
-                '}';
+        final StringBuilder builder = new StringBuilder(50 + 30 * books.size());
+
+        builder.append("Bookstore #").append(id).append(": \"").append(name).append("\", owner - ").append(owner).append("\n");
+        builder.append("Books:\n");
+        books.forEach((book) -> builder.append(book).append("\n"));
+
+        return builder.toString();
     }
 }

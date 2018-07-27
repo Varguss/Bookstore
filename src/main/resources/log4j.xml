@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 <log4j:configuration>
-    <appender name="hb" class="org.apache.log4j.ConsoleAppender">
+    <appender name="hb" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="log/hibernate.log" />
+        <param name="MaxFileSize" value="1MB" />
+        <param name="MaxBackupIndex" value="5" />
         <param name="Encoding" value="UTF-8"/>
-        <param name="Target" value="System.out"/>
-        <param name="Threshold" value="TRACE"/>
+        <param name="Threshold" value="WARN"/>
 
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="HIBERNATE LOG: --> %d{HH:mm:ss} %-5p %c - %m%n"/>
         </layout>
     </appender>
 
-    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+    <appender name="stdout" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="log/application.log" />
+        <param name="MaxFileSize" value="1MB" />
+        <param name="MaxBackupIndex" value="5" />
         <param name="Encoding" value="UTF-8"/>
-        <param name="Target" value="System.out"/>
         <param name="Threshold" value="INFO"/>
 
         <layout class="org.apache.log4j.PatternLayout">
@@ -28,34 +32,42 @@
 
     <logger name="org.hibernate.stat">
         <level value="DEBUG"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.type">
         <level value="TRACE"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.hql.ast.AST">
         <level value="INFO"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.tool.hbm2ddl">
         <level value="WARN"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.cache">
         <level value="INFO"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.jdbc">
         <level value="DEBUG"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.hql">
         <level value="DEBUG"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <logger name="org.hibernate.SQL">
         <level value="DEBUG"/>
+        <appender-ref ref="hb"/>
     </logger>
 
     <root>

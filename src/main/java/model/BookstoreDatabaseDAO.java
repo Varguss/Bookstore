@@ -3,10 +3,7 @@ package model;
 import entity.BookstoreEntity;
 import org.apache.log4j.Logger;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
@@ -15,7 +12,7 @@ public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
     private static final Logger logger = Logger.getLogger(BookstoreDatabaseDAO.class);
 
     @Override
-    public void createBookstore(BookstoreEntity bookstore) throws DAOException {
+    public void createBookstore(BookstoreEntity bookstore) throws DAOException, EntityExistsException {
         try {
             logger.info("Saving " + bookstore + " in database...");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -30,6 +27,9 @@ public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
 
             logger.info(bookstore + " saved.");
             entityManager.close();
+        } catch (EntityExistsException e) {
+            logger.info("Bookstore is already created.", e);
+            throw e;
         } catch (Exception e) {
             logger.error("Creating " + bookstore + " has been failed.", e);
             throw new DAOException(e);
@@ -37,22 +37,32 @@ public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
     }
 
     @Override
-    public BookstoreEntity getBookstoreById(int id) throws DAOException {
+    public BookstoreEntity getBookstoreById(int id) throws DAOException, BookstoreIsNotFoundException {
         try {
             logger.info("Searching for bookstore with id " + id + "...");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
 
             entityManager.getTransaction().begin();
 
-            TypedQuery<BookstoreEntity> query = entityManager.createQuery("SELECT bookstore FROM BookstoreEntity bookstore JOIN FETCH bookstore.books WHERE bookstore.id = " + id, BookstoreEntity.class);
-            BookstoreEntity bookstoreEntity = query.getSingleResult();
+            TypedQuery<BookstoreEntity> query = entityManager.createQuery("SELECT bookstore FROM BookstoreEntity bookstore LEFT JOIN FETCH bookstore.books WHERE bookstore.id = " + id, BookstoreEntity.class);
+
+            BookstoreEntity bookstoreEntity;
+            try {
+                bookstoreEntity = query.getSingleResult();
+            } catch (NoResultException e) {
+                throw new BookstoreIsNotFoundException(e);
+            }
 
             entityManager.getTransaction().commit();
 
             logger.info(bookstoreEntity == null ? "Bookstore with id " + id + " hasn't been found." : "Bookstore with id " + id + " has been found.");
 
             entityManager.close();
+
             return bookstoreEntity;
+        } catch (BookstoreIsNotFoundException e) {
+            logger.info("Searching for bookstore with id " + id + " has been failed. Reason: dao doesn't contain bookstore with that id.", e);
+            throw e;
         } catch (Exception e) {
             logger.error("Searching for bookstore with id " + id + " has been failed.", e);
             throw new DAOException(e);
@@ -110,7 +120,7 @@ public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
             logger.info("Retrieving bookstores...");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-            TypedQuery<BookstoreEntity> query = entityManager.createQuery("SELECT bookstore FROM BookstoreEntity bookstore JOIN FETCH bookstore.books", BookstoreEntity.class);
+            TypedQuery<BookstoreEntity> query = entityManager.createQuery("SELECT bookstore FROM BookstoreEntity bookstore LEFT JOIN FETCH bookstore.books", BookstoreEntity.class);
 
             entityManager.getTransaction().begin();
             logger.debug("Transaction has been opened.");
@@ -144,7 +154,7 @@ public class BookstoreDatabaseDAO implements BookstoreDAO, AutoCloseable {
     }
 
     @Override
-    public void close() {
+    public void close() throws Exception {
         entityManagerFactory.close();
     }
 }
