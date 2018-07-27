@@ -1,11 +1,12 @@
 package entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class BookEntity {
+public class BookEntity implements Serializable {
     private int id, printYear;
     private String title, description, author, isbn;
     private boolean isRedAlready;
@@ -135,7 +136,6 @@ public class BookEntity {
                 ", author='" + author + '\'' +
                 ", isbn='" + isbn + '\'' +
                 ", isRedAlready=" + isRedAlready +
-                ", bookstoreEntity=" + bookstoreEntity +
                 '}';
     }
 }

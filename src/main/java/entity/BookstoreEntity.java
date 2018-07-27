@@ -1,15 +1,17 @@
 package entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "book_stores")
-public class BookstoreEntity {
+public class BookstoreEntity implements Serializable {
     private int id;
     private String name, owner;
-    private List<BookEntity> books;
+    private List<BookEntity> books = new ArrayList<>();
 
     public BookstoreEntity(String name, String owner, List<BookEntity> books) {
         this.name = name;
